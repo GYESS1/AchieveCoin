@@ -87,7 +87,7 @@
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-const char * const BITCOIN_CONF_FILENAME = "bitcoingold.conf";
+const char * const BITCOIN_CONF_FILENAME = "achievecoin.conf";
 const char * const BITCOIN_PID_FILENAME = "bgoldd.pid";
 
 ArgsManager gArgs;
@@ -525,13 +525,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 
 fs::path GetDefaultDataDir()
 {
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\BitcoinGold
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\BitcoinGold
-    // Mac: ~/Library/Application Support/BitcoinGold
-    // Unix: ~/.bitcoingold
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\AchieveCoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\AchieveCoin
+    // Mac: ~/Library/Application Support/AchieveCoin
+    // Unix: ~/.achievecoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "BitcoinGold";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "AchieveCoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -541,10 +541,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/BitcoinGold";
+    return pathRet / "Library/Application Support/AchieveCoin";
 #else
     // Unix
-    return pathRet / ".bitcoingold";
+    return pathRet / ".achievecoin";
 #endif
 #endif
 }
@@ -609,7 +609,7 @@ void ArgsManager::ReadConfigFile(const std::string& confPath)
 {
     fs::ifstream streamConfig(GetConfigFile(confPath));
     if (!streamConfig.good())
-        return; // No bitcoingold.conf file is OK
+        return; // No achievecoin.conf file is OK
 
     {
         LOCK(cs_args);
@@ -618,7 +618,7 @@ void ArgsManager::ReadConfigFile(const std::string& confPath)
 
         for (boost::program_options::detail::config_file_iterator it(streamConfig, setOptions), end; it != end; ++it)
         {
-            // Don't overwrite existing settings so command line settings override bitcoingold.conf
+            // Don't overwrite existing settings so command line settings override achievecoin.conf
             std::string strKey = std::string("-") + it->string_key;
             std::string strValue = it->value[0];
             InterpretNegativeSetting(strKey, strValue);

@@ -427,7 +427,7 @@ bool openBitcoinConf()
     
     configFile.close();
     
-    /* Open bitcoingold.conf with the associated application */
+    /* Open achievecoin.conf with the associated application */
     return QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
 

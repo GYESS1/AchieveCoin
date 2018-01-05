@@ -62,7 +62,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+    const char* pszTimestamp = "Plutus is envisaged by Aristophanes as blinded by Zeus, so that he would be able to dispense his gifts without prejudice";
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -102,13 +102,13 @@ public:
         consensus.powLimit = uint256S("0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitStart = uint256S("0000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitLegacy = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        
-        //based on https://github.com/BTCGPU/BTCGPU/issues/78
+
+        //based on https://github.com/AchieveCoin/AchieveCoin/issues/78
         consensus.nPowAveragingWindow = 30;
         assert(maxUint/UintToArith256(consensus.powLimit) >= consensus.nPowAveragingWindow);
         consensus.nPowMaxAdjustDown = 32;
         consensus.nPowMaxAdjustUp = 16;
-        
+
         consensus.nPowTargetTimespanLegacy = 14 * 24 * 60 * 60;; // 10 minutes
         consensus.nPowTargetSpacing = 10 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
@@ -160,9 +160,9 @@ public:
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
 
-        vSeeds.emplace_back("dnsseed.bitcoingold.org", true);
-        vSeeds.emplace_back("eu-dnsseed.bitcoingold-official.org", true);
-        vSeeds.emplace_back("dnsseed.btcgpu.org", true);
+        //vSeeds.emplace_back("dnsseed.achievecoin.org", true);
+        //vSeeds.emplace_back("eu-dnsseed.achievecoin-official.org", true);
+        //vSeeds.emplace_back("dnsseed.AchieveCoin.org", true);
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,38);  // prefix: G
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,23);  // prefix: A
@@ -230,12 +230,12 @@ public:
         consensus.powLimitStart = uint256S("0000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitLegacy = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
-        //based on https://github.com/BTCGPU/BTCGPU/issues/78
+        //based on https://github.com/AchieveCoin/AchieveCoin/issues/78
         consensus.nPowAveragingWindow = 30;
         assert(maxUint/UintToArith256(consensus.powLimit) >= consensus.nPowAveragingWindow);
         consensus.nPowMaxAdjustDown = 32;
         consensus.nPowMaxAdjustUp = 16;
-        
+
         consensus.nPowTargetTimespanLegacy = 14 * 24 * 60 * 60; // two weeks
         consensus.nPowTargetSpacing = 10 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -282,10 +282,10 @@ public:
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
 
-        vSeeds.emplace_back("eu-test-dnsseed.bitcoingold-official.org", true);
-        vSeeds.emplace_back("test-dnsseed.bitcoingold.org", true);
-        vSeeds.emplace_back("test-dnsseed.btcgpu.org", true);
-        vSeeds.emplace_back("btg.dnsseed.minertopia.org", true);
+        //vSeeds.emplace_back("eu-test-dnsseed.achievecoin-official.org", true);
+        //vSeeds.emplace_back("test-dnsseed.achievecoin.org", true);
+        //vSeeds.emplace_back("test-dnsseed.AchieveCoin.org", true);
+        //vSeeds.emplace_back("btg.dnsseed.minertopia.org", true);
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
@@ -333,7 +333,7 @@ public:
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitStart = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitLegacy = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        //based on https://github.com/BTCGPU/BTCGPU/issues/78
+        //based on https://github.com/AchieveCoin/AchieveCoin/issues/78
         consensus.nPowAveragingWindow = 30;
         consensus.nPowMaxAdjustDown = 16;
         consensus.nPowMaxAdjustUp = 32;
@@ -358,7 +358,7 @@ public:
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
-        
+
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;
@@ -401,7 +401,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
     }
-    
+
 };
 
 class BitcoinAddressChainParam : public CMainParams

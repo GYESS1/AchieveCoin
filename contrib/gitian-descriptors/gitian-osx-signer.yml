@@ -1,5 +1,5 @@
 ---
-name: "bitcoin-gold-dmg-signer"
+name: "achievecoin-dmg-signer"
 suites:
 - "trusty"
 architectures:
@@ -7,10 +7,10 @@ architectures:
 packages:
 - "faketime"
 remotes:
-- "url": "https://github.com/BTCGPU/bitcoingold-detached-sigs.git"
+- "url": "https://github.com/AchieveCoin/achievecoin-detached-sigs.git"
   "dir": "signature"
 files:
-- "bitcoin-gold-osx-unsigned.tar.gz"
+- "achievecoin-osx-unsigned.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
   mkdir -p ${WRAP_DIR}
@@ -27,8 +27,8 @@ script: |
     chmod +x ${WRAP_DIR}/${prog}
   done
 
-  UNSIGNED=bitcoin-gold-osx-unsigned.tar.gz
-  SIGNED=bitcoin-gold-osx-signed.dmg
+  UNSIGNED=achievecoin-osx-unsigned.tar.gz
+  SIGNED=achievecoin-osx-signed.dmg
 
   tar -xf ${UNSIGNED}
   OSX_VOLNAME="$(cat osx_volname)"

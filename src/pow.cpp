@@ -73,7 +73,7 @@ unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg, int64_t nLastBlockTi
 }
 
 
-// Deprecated for Bitcoin Gold
+// Deprecated for AchieveCoin
 unsigned int BitcoinGetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     assert(pindexLast != nullptr);
@@ -111,7 +111,7 @@ unsigned int BitcoinGetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 }
 
 
-// Depricated for Bitcoin Gold
+// Depricated for AchieveCoin
 unsigned int BitcoinCalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
     if (params.fPowNoRetargeting)
