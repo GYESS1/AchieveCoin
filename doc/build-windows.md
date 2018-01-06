@@ -62,7 +62,7 @@ LT_INIT([win32-dll])
 
 First install the toolchains:
 
-sudo apt-get install git curl build-essential libtool autotools-dev automake pkg-config bsdmainutils libdb++-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 
+sudo apt-get install git curl build-essential libtool autotools-dev automake pkg-config bsdmainutils libdb++-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3
 
 
 A host toolchain (`build-essential`) is necessary because some dependency
@@ -80,7 +80,6 @@ build process.
 
     sudo apt install libsodium-dev
 
-
 ## Building for 64-bit Windows
 
 To build executables for Windows 64-bit, install the following dependencies:
@@ -91,19 +90,20 @@ Then build using:
 
     cd depends
     make HOST=x86_64-w64-mingw32
-    cd ..
-    cd src/secp256k1
+    cd ../src/secp256k1
+    ./autogen.sh
+    ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
     make HOST=x86_64-w64-mingw32
     cd ../..
-    ./autogen.sh 
-    ./configure --prefix=`pwd`/depends/i686-w64-mingw32 --with-incompatible-bdb
-    make
+    ./autogen.sh
+    ./configure --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=`pwd`/depends/x86_64-w64-mingw32 --with-incompatible-bdb
+    make HOST=x86_64-w64-mingw32
 
 ## Building for 32-bit Windows
 
 To build executables for Windows 32-bit, install the following dependencies:
 
-    sudo apt-get install g++-mingw-w64-i686 mingw-w64-i686-dev 
+    sudo apt-get install g++-mingw-w64-i686 mingw-w64-i686-dev
 
 Then build using:
 
@@ -127,4 +127,3 @@ as they appear in the release `.zip` archive. This can be done in the following
 way. This will install to `c:\workspace\bitcoin`, for example:
 
     make install DESTDIR=/mnt/c/workspace/bitcoin
-
