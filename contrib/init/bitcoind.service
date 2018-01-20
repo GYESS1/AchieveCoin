@@ -7,8 +7,8 @@ User=bitcoin
 Group=bitcoin
 
 Type=forking
-PIDFile=/var/lib/bitcoind/bgoldd.pid
-ExecStart=/usr/bin/bitcoind -daemon -pid=/var/lib/bitcoind/bgoldd.pid \
+PIDFile=/var/lib/bitcoind/achd.pid
+ExecStart=/usr/bin/bitcoind -daemon -pid=/var/lib/bitcoind/achd.pid \
 -conf=/etc/bitcoin/achievecoin.conf -datadir=/var/lib/bitcoind -disablewallet
 
 Restart=always

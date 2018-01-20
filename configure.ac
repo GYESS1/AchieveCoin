@@ -14,9 +14,9 @@ AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-BITCOIN_DAEMON_NAME=bgoldd
-BITCOIN_GUI_NAME=bitcoin-qt
-BITCOIN_CLI_NAME=bgold-cli
+BITCOIN_DAEMON_NAME=achd
+BITCOIN_GUI_NAME=ach-qt
+BITCOIN_CLI_NAME=ach-cli
 BITCOIN_TX_NAME=bitcoin-tx
 
 dnl Unless the user specified ARFLAGS, force it to be cr
@@ -1153,7 +1153,7 @@ if test x$bitcoin_enable_qt != xno; then
     AC_MSG_WARN("xgettext is required to update qt translations")
   fi
 
-  AC_MSG_CHECKING([whether to build test_bitcoin-qt])
+  AC_MSG_CHECKING([whether to build test_ach-qt])
   if test x$use_gui_tests$bitcoin_enable_qt_test = xyesyes; then
     AC_MSG_RESULT([yes])
     BUILD_TEST_QT="yes"

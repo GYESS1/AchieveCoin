@@ -202,7 +202,7 @@ OPTIONS=""
 # Don't change these unless you know what you're doing.
 CONFIG_FILE="%{_sysconfdir}/bitcoin/achievecoin.conf"
 DATA_DIR="%{_localstatedir}/lib/bitcoin"
-PID_FILE="/run/bitcoind/bgoldd.pid"
+PID_FILE="/run/bitcoind/achd.pid"
 EOF
 touch -a -m -t 201504280000 %{buildroot}%{_sysconfdir}/sysconfig/bitcoin
 
@@ -269,7 +269,7 @@ Name=Bitcoin
 Comment=Bitcoin P2P Cryptocurrency
 Comment[fr]=Bitcoin, monnaie virtuelle cryptographique pair à pair
 Comment[tr]=Bitcoin, eşten eşe kriptografik sanal para birimi
-Exec=bitcoin-qt %u
+Exec=ach-qt %u
 Terminal=false
 Type=Application
 Icon=bitcoin128
@@ -284,7 +284,7 @@ touch -a -m -t 201511100546 %{buildroot}%{_datadir}/applications/bitcoin-core.de
 mkdir -p %{buildroot}%{_datadir}/kde4/services
 cat <<EOF > %{buildroot}%{_datadir}/kde4/services/bitcoin-core.protocol
 [Protocol]
-exec=bitcoin-qt '%u'
+exec=ach-qt '%u'
 protocol=bitcoin
 input=none
 output=none

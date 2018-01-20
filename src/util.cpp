@@ -88,7 +88,7 @@
 const int64_t nStartupTime = GetTime();
 
 const char * const BITCOIN_CONF_FILENAME = "achievecoin.conf";
-const char * const BITCOIN_PID_FILENAME = "bgoldd.pid";
+const char * const BITCOIN_PID_FILENAME = "achd.pid";
 
 ArgsManager gArgs;
 bool fPrintToConsole = false;
