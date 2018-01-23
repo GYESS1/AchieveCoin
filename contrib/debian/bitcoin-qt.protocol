@@ -1,5 +1,5 @@
 [Protocol]
-exec=ach-qt '%u'
+exec=bitcoin-qt '%u'
 protocol=bitcoin
 input=none
 output=none

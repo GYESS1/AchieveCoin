@@ -351,21 +351,21 @@ static bool IsCurrentForFeeEstimation()
     return true;
 }
 
-bool static IsBTGHardForkEnabled(int nHeight, const Consensus::Params& params) {
-    return nHeight >= params.BTGHeight;
+bool static IsACHHardForkEnabled(int nHeight, const Consensus::Params& params) {
+    return nHeight >= params.ACHHeight;
 }
 
-bool IsBTGHardForkEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params) {
+bool IsACHHardForkEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params) {
     if (pindexPrev == nullptr) {
         return false;
     }
 
-    return IsBTGHardForkEnabled(pindexPrev->nHeight, params);
+    return IsACHHardForkEnabled(pindexPrev->nHeight, params);
 }
 
-bool IsBTGHardForkEnabledForCurrentBlock(const Consensus::Params& params) {
+bool IsACHHardForkEnabledForCurrentBlock(const Consensus::Params& params) {
     AssertLockHeld(cs_main);
-    return IsBTGHardForkEnabled(chainActive.Tip(), params);
+    return IsACHHardForkEnabled(chainActive.Tip(), params);
 }
 
 /* Make mempool consistent after a reorg, by re-adding or recursively erasing
@@ -1018,7 +1018,7 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check Equihash solution
-    bool postfork = block.nHeight >= (uint32_t)consensusParams.BTGHeight;
+    bool postfork = block.nHeight >= (uint32_t)consensusParams.ACHHeight;
     if (postfork && !CheckEquihashSolution(&block, Params())) {
         return error("ReadBlockFromDisk: Errors in block header at %s (bad Equihash solution)", pos.ToString());
     }
@@ -1633,7 +1633,7 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex* pindex, const Consens
         flags |= SCRIPT_VERIFY_NULLDUMMY;
     }
 
-    if (IsBTGHardForkEnabled(pindex->pprev, consensusparams)) {
+    if (IsACHHardForkEnabled(pindex->pprev, consensusparams)) {
         flags |= SCRIPT_VERIFY_STRICTENC;
     } else {
         flags |= SCRIPT_ALLOW_NON_FORKID;
@@ -2794,7 +2794,7 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
 static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
     // Check Equihash solution is valid
-    bool postfork = block.nHeight >= (uint32_t)consensusParams.BTGHeight;
+    bool postfork = block.nHeight >= (uint32_t)consensusParams.ACHHeight;
     if (fCheckPOW && postfork && !CheckEquihashSolution(&block, Params())) {
         LogPrintf("CheckBlockHeader(): Equihash solution invalid at height %d\n", block.nHeight);
         return state.DoS(100, error("CheckBlockHeader(): Equihash solution invalid"),
@@ -2842,7 +2842,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
     // Size limits
     int serialization_flags = SERIALIZE_TRANSACTION_NO_WITNESS;
-    if (block.nHeight < (uint32_t)consensusParams.BTGHeight) {
+    if (block.nHeight < (uint32_t)consensusParams.ACHHeight) {
         serialization_flags |= SERIALIZE_BLOCK_LEGACY;
     }
     if (block.vtx.empty() || block.vtx.size() * WITNESS_SCALE_FACTOR > MAX_BLOCK_WEIGHT || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION | serialization_flags) * WITNESS_SCALE_FACTOR > MAX_BLOCK_WEIGHT)
@@ -2960,8 +2960,8 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
             return state.DoS(100, error("%s: forked chain older than last checkpoint (height %d)", __func__, nHeight), REJECT_CHECKPOINT, "bad-fork-prior-to-checkpoint");
     }
 
-    // Check block height for blocks after BTG fork.
-    if (nHeight >= consensusParams.BTGHeight && block.nHeight != (uint32_t)nHeight)
+    // Check block height for blocks after ACH fork.
+    if (nHeight >= consensusParams.ACHHeight && block.nHeight != (uint32_t)nHeight)
         return state.Invalid(false, REJECT_INVALID, "bad-height", "incorrect block height");
 
     // Check timestamp against prev
@@ -3014,9 +3014,9 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
         }
     }
 
-    if (nHeight >= consensusParams.BTGHeight &&
-        nHeight < consensusParams.BTGHeight + consensusParams.BTGPremineWindow &&
-        consensusParams.BTGPremineEnforceWhitelist)
+    if (nHeight >= consensusParams.ACHHeight &&
+        nHeight < consensusParams.ACHHeight + consensusParams.ACHPremineWindow &&
+        consensusParams.ACHPremineEnforceWhitelist)
     {
         if (block.vtx[0]->vout.size() != 1) {
             return state.DoS(

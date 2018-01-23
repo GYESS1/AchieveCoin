@@ -269,7 +269,7 @@ Name=Bitcoin
 Comment=Bitcoin P2P Cryptocurrency
 Comment[fr]=Bitcoin, monnaie virtuelle cryptographique pair à pair
 Comment[tr]=Bitcoin, eşten eşe kriptografik sanal para birimi
-Exec=ach-qt %u
+Exec=bitcoin-qt %u
 Terminal=false
 Type=Application
 Icon=bitcoin128
@@ -284,7 +284,7 @@ touch -a -m -t 201511100546 %{buildroot}%{_datadir}/applications/bitcoin-core.de
 mkdir -p %{buildroot}%{_datadir}/kde4/services
 cat <<EOF > %{buildroot}%{_datadir}/kde4/services/bitcoin-core.protocol
 [Protocol]
-exec=ach-qt '%u'
+exec=bitcoin-qt '%u'
 protocol=bitcoin
 input=none
 output=none

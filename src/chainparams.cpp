@@ -97,9 +97,9 @@ public:
         consensus.BIP34Hash = uint256S("00000000d0253d13685d892a638b32fa89e319fd1e96ab423701e8f80db19bba"); // was 0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8
         consensus.BIP65Height = 0; // was 388381; OP_CHECKLOCKTIMEVERIFY // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 0; //was 363725; Strict DER signatures // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
-        consensus.BTGHeight = 1; // was 491407; // Around 10/25/2017 12:00 UTC
-        consensus.BTGPremineWindow = 8000;
-        consensus.BTGPremineEnforceWhitelist = true;
+        consensus.ACHHeight = 1; // was 491407; // Around 10/25/2017 12:00 UTC
+        consensus.ACHPremineWindow = 8000;
+        consensus.ACHPremineEnforceWhitelist = true;
         consensus.powLimit = uint256S("0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitStart = uint256S("0000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitLegacy = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
@@ -235,9 +235,9 @@ public:
         consensus.BIP34Hash = uint256S("0000000006b64dceb7f6ca16b2f944586029b5bd33475e08790865a0d6d1bd17"); //was 0x0000000023b3a96d3484e5abb3755c413e7d41500f8e2a5c3f0dd01299cd8ef8");
         consensus.BIP65Height = 0; //was 581885; // 00000000007f6655f22f98e72ed80d8b06dc761d5da09df0fa1dc4be4f861eb6
         consensus.BIP66Height = 0; //was 330776; // 000000002104c8c45e99a8853285a3b592602a3ccde2b832481da85e9e4ba182
-        consensus.BTGHeight = 1;
-        consensus.BTGPremineWindow = 50;
-        consensus.BTGPremineEnforceWhitelist = false;
+        consensus.ACHHeight = 1;
+        consensus.ACHPremineWindow = 50;
+        consensus.ACHPremineEnforceWhitelist = false;
         consensus.powLimit = uint256S("0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitStart = uint256S("0000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitLegacy = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
@@ -294,7 +294,7 @@ public:
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
 
-        //vSeeds.emplace_back("eu-test-dnsseed.achievecoin-official.org", true);
+        vSeeds.emplace_back("test-dnsseed.achievecoin.org", true);
         //vSeeds.emplace_back("test-dnsseed.achievecoin.org", true);
         //vSeeds.emplace_back("test-dnsseed.AchieveCoin.org", true);
         //vSeeds.emplace_back("btg.dnsseed.minertopia.org", true);
@@ -339,9 +339,9 @@ public:
         consensus.BIP34Hash = uint256();
         consensus.BIP65Height = 0; //was 1351; // BIP65 activated on regtest (Used in rpc activation tests)
         consensus.BIP66Height = 0; //was 1251; // BIP66 activated on regtest (Used in rpc activation tests)
-        consensus.BTGHeight = 1;
-        consensus.BTGPremineWindow = 10;
-        consensus.BTGPremineEnforceWhitelist = false;
+        consensus.ACHHeight = 1;
+        consensus.ACHPremineWindow = 10;
+        consensus.ACHPremineEnforceWhitelist = false;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitStart = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimitLegacy = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
@@ -480,11 +480,11 @@ static CScript CltvMultiSigScript(const std::vector<std::string>& pubkeys, uint3
 bool CChainParams::IsPremineAddressScript(const CScript& scriptPubKey, uint32_t height) const {
     static const int LOCK_TIME = 3 * 365 * 24 * 3600;  // 3 years
     static const int LOCK_STAGES = 3 * 12;  // Every month for 3 years
-    assert((uint32_t)consensus.BTGHeight <= height &&
-           height < (uint32_t)(consensus.BTGHeight + consensus.BTGPremineWindow));
-    int block = height - consensus.BTGHeight;
-    int num_unlocked = consensus.BTGPremineWindow * 40 / 100;  // 40% unlocked.
-    int num_locked = consensus.BTGPremineWindow - num_unlocked;  // 60% time-locked.
+    assert((uint32_t)consensus.ACHHeight <= height &&
+           height < (uint32_t)(consensus.ACHHeight + consensus.ACHPremineWindow));
+    int block = height - consensus.ACHHeight;
+    int num_unlocked = consensus.ACHPremineWindow * 40 / 100;  // 40% unlocked.
+    int num_locked = consensus.ACHPremineWindow - num_unlocked;  // 60% time-locked.
     int stage_lock_time = LOCK_TIME / LOCK_STAGES / consensus.nPowTargetSpacing;
     int stage_block_height = num_locked / LOCK_STAGES;
     const std::vector<std::string> pubkeys = vPreminePubkeys[block % vPreminePubkeys.size()];  // Round robin.
@@ -494,7 +494,7 @@ bool CChainParams::IsPremineAddressScript(const CScript& scriptPubKey, uint32_t 
     } else {
         int locked_block = block - num_unlocked;
         int stage = locked_block / stage_block_height;
-        int lock_time = consensus.BTGHeight + stage_lock_time * (1 + stage);
+        int lock_time = consensus.ACHHeight + stage_lock_time * (1 + stage);
         redeem_script = CltvMultiSigScript(pubkeys, lock_time);
     }
     CScript target_scriptPubkey = GetScriptForDestination(CScriptID(redeem_script));
