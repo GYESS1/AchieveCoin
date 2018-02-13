@@ -153,9 +153,9 @@ public:
         nEquihashN = N;
         nEquihashK = K;
 
-        genesis = CreateGenesisBlock(1231006506, 720201463, 0x1d00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1518476865, 1351062628, 0x1d00ffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash(consensus);
-        assert(consensus.hashGenesisBlock == uint256S("00000000d0253d13685d892a638b32fa89e319fd1e96ab423701e8f80db19bba"));
+        assert(consensus.hashGenesisBlock == uint256S("00000000a7e376848c3587aee08bc0bf7f9f076f3326cf14cb583f7f5a49c447"));
         assert(genesis.hashMerkleRoot == uint256S("91ced1a84f4aa30ae7b64f1b3a99dfe72c1ba1838bbe596e04e95d1e9d9d7a4a"));
 
         vFixedSeeds.clear();
@@ -231,7 +231,7 @@ public:
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 210000;
         consensus.BIP34Height = 17;
-        consensus.BIP34Hash = uint256S("000021cf7f12e8e889899ea034c86e223e0c1d388e62d543e2d651ec04ef7166");
+        consensus.BIP34Hash = uint256S("0000d17d53d0f2931a753fd3d33a595856f7dc6435962fcd245126a975dddd0c");
         consensus.BIP65Height = 0;
         consensus.BIP66Height = 0;
         consensus.ACHHeight = 1;

@@ -88,7 +88,7 @@ You can add the repository and install using the following commands:
     sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
     sudo apt-get install libdb4.8-dev libdb4.8++-dev
-    
+
     wget http://de.archive.ubuntu.com/ubuntu/pool/universe/libs/libsodium/libsodium-dev_1.0.13-1_amd64.deb
     wget http://de.archive.ubuntu.com/ubuntu/pool/universe/libs/libsodium/libsodium18_1.0.13-1_amd64.deb
     sudo dpkg -i libsodium*deb
@@ -107,6 +107,23 @@ Optional (see --with-miniupnpc and --enable-upnp-default):
 ZMQ dependencies (provides ZMQ API 4.x):
 
     sudo apt-get install libzmq3-dev
+
+3. On Ubuntu 16.04.3 you need to install the newest libsodium (at least 1.0.13)
+
+		    configure: error: Wrong libsodium: version >= 1.0.13 required
+
+I tested it with version 1.0.15 (from the `depends` directory) at it works.
+
+    $ cd AchieveCoin
+    $ cd depends
+    $ make
+    $ cd ..
+    $ ./autogen.sh
+    $ ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+    $ make
+    $ make install
+
+The command `make install` installs the executables in the `./depends/x86_64-pc-linux-gnu/bin/` directory.
 
 Dependencies for the GUI: Ubuntu & Debian
 -----------------------------------------

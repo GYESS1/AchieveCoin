@@ -99,7 +99,5 @@ std::string ChainNameFromCommandLine()
     if (fTestNet)
         return CBaseChainParams::TESTNET;
 
-    throw std::runtime_error("This code does not support mainnet. Use -regtest or -testnet instead.");
-
     return CBaseChainParams::MAIN;
 }
