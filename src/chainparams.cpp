@@ -94,7 +94,7 @@ public:
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 210000;
         consensus.BIP34Height = 17; // was 227931; start with Block v2
-        consensus.BIP34Hash = uint256S("00000000d0253d13685d892a638b32fa89e319fd1e96ab423701e8f80db19bba"); // was 0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8
+        consensus.BIP34Hash = uint256S("00008efa6924a1a9a5e31e7f0586af5e794dc40a3eb8d8863c9c3e51ce8894a3"); // was 0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8
         consensus.BIP65Height = 0; // was 388381; OP_CHECKLOCKTIMEVERIFY // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
         consensus.BIP66Height = 0; //was 363725; Strict DER signatures // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
         consensus.ACHHeight = 1; // was 491407; // Around 10/25/2017 12:00 UTC
@@ -153,9 +153,9 @@ public:
         nEquihashN = N;
         nEquihashK = K;
 
-        genesis = CreateGenesisBlock(1518476865, 1351062628, 0x1d00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1518558625, 3131108260, 0x1d00ffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash(consensus);
-        assert(consensus.hashGenesisBlock == uint256S("00000000a7e376848c3587aee08bc0bf7f9f076f3326cf14cb583f7f5a49c447"));
+        assert(consensus.hashGenesisBlock == uint256S("00000000af1da9e603a7442c5a0fa1c1885ee583990234b467894404b20a6119"));
         assert(genesis.hashMerkleRoot == uint256S("91ced1a84f4aa30ae7b64f1b3a99dfe72c1ba1838bbe596e04e95d1e9d9d7a4a"));
 
         vFixedSeeds.clear();
