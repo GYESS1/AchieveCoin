@@ -30,7 +30,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     else if (nHeight < params.ACHHeight + params.ACHPremineWindow + params.nPowAveragingWindow){
         return UintToArith256(params.powLimitStart).GetCompact();
     }
-    
+
     const CBlockIndex* pindexFirst = pindexLast;
     arith_uint256 bnTot {0};
     for (int i = 0; pindexFirst && i < params.nPowAveragingWindow; i++) {
@@ -39,22 +39,27 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         bnTot += bnTmp;
         pindexFirst = pindexFirst->pprev;
     }
-    
+
     if (pindexFirst == NULL)
         return nProofOfWorkLimit;
-    
-    arith_uint256 bnAvg {bnTot / params.nPowAveragingWindow};
-    
 
-    return CalculateNextWorkRequired(bnAvg, pindexLast->GetMedianTimePast(), pindexFirst->GetMedianTimePast(), params);
+    arith_uint256 bnAvg {bnTot / params.nPowAveragingWindow};
+
+
+    return CalculateNextWorkRequired(bnAvg, pindexLast, pindexFirst, params);
 }
 
-unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg, int64_t nLastBlockTime, int64_t nFirstBlockTime, const Consensus::Params& params)
+unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg, const CBlockIndex* pindexLast, const CBlockIndex* pindexFirst, const Consensus::Params& params)
 {
-    
+    if (params.fPowNoRetargeting)
+      return pindexLast->nBits;
+
+    int64_t nLastBlockTime = pindexLast->GetMedianTimePast();
+    int64_t nFirstBlockTime = pindexFirst->GetMedianTimePast();
+
     // Limit adjustment
     int64_t nActualTimespan = nLastBlockTime - nFirstBlockTime;
-    
+
     if (nActualTimespan < params.MinActualTimespan())
         nActualTimespan = params.MinActualTimespan();
     if (nActualTimespan > params.MaxActualTimespan())
@@ -65,7 +70,7 @@ unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg, int64_t nLastBlockTi
     arith_uint256 bnNew {bnAvg};
     bnNew /= params.AveragingWindowTimespan();
     bnNew *= nActualTimespan;
-    
+
     if (bnNew > bnPowLimit)
         bnNew = bnPowLimit;
 
@@ -78,7 +83,7 @@ unsigned int BitcoinGetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 {
     assert(pindexLast != nullptr);
     unsigned int nProofOfWorkLimit = UintToArith256(params.PowLimit(false)).GetCompact();
-    
+
     // Only change once per difficulty adjustment interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
@@ -116,24 +121,24 @@ unsigned int BitcoinCalculateNextWorkRequired(const CBlockIndex* pindexLast, int
 {
     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
-    
+
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
     if (nActualTimespan < params.nPowTargetTimespanLegacy/4)
         nActualTimespan = params.nPowTargetTimespanLegacy/4;
     if (nActualTimespan > params.nPowTargetTimespanLegacy*4)
         nActualTimespan = params.nPowTargetTimespanLegacy*4;
-    
+
     // Retarget
     const arith_uint256 bnPowLimit = UintToArith256(params.PowLimit(false));
     arith_uint256 bnNew;
     bnNew.SetCompact(pindexLast->nBits);
     bnNew *= nActualTimespan;
     bnNew /= params.nPowTargetTimespanLegacy;
-    
+
     if (bnNew > bnPowLimit)
         bnNew = bnPowLimit;
-    
+
     return bnNew.GetCompact();
 }
 
